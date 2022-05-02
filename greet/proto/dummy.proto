@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package greet;
+
+option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go/greet/proto";
+
+message Dummy {
+	uint23 id = 1;
+}
+
+service DummyService {
+
+}
