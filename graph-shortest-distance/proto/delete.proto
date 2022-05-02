@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package graph_shortest_distance;
+
+option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go";
+
+message DeleteRequest {
+  int32 id = 1;
+}
+
+message DeleteResponse {
+  bool result = 1;
+}

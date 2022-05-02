@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package graph_shortest_distance;
+
+option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go";
+
+message PostRequest {
+  int32 total_vertices = 1;
+  repeated Edge edges = 2;
+}
+
+message PostResponse {
+  int32 result = 1;
+}
+
+message Edge {
+  int32 src = 1;
+  int32 dest = 2;
+}
