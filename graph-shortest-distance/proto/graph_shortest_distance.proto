@@ -2,7 +2,11 @@ syntax = "proto3";
 
 package graph_shortest_distance;
 
-option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go";
+import "post.proto";
+import "dist.proto";
+import "delete.proto";
+
+option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph-shortest-distance/proto";
 
 service GraphService {
   rpc Post(PostRequest) returns (PostResponse);
