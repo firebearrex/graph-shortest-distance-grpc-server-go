@@ -6,7 +6,7 @@ import "post.proto";
 import "dist.proto";
 import "delete.proto";
 
-option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph-shortest-distance/proto";
+option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto";
 
 service GraphService {
   rpc Post(PostRequest) returns (PostResponse);
