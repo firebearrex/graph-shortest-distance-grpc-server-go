@@ -15,7 +15,7 @@ import (
 // request. If the specified source or destination node does not exist in the graph,
 // the server will send error accordingly.
 func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse, error) {
-	log.Printf("Dist was invoked with %v\n", req)
+	log.Printf("Dist was invoked with: %v\n", req)
 
 	graph, ok := graphStore[req.Id]
 

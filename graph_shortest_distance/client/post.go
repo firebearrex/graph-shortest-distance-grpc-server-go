@@ -14,12 +14,6 @@ func doPost(client pb.GraphServiceClient, totalVertices int32, edgesRaw [][2]int
 	edgesPb := make([]*pb.Edge, len(edgesRaw))
 
 	for i := 0; i < len(edgesRaw); i++ {
-		// src := edgesRaw[i][0]
-		// if src >= totalVertices {
-		// 	log.Fatalf("The node value [%d] is greater than or equal to the total number of nodes, "+
-		// 		"meaning the node does not exist in the graph", src)
-		// }
-
 		edgesPb[i] = &pb.Edge{Src: edgesRaw[i][0], Dest: edgesRaw[i][1]}
 	}
 

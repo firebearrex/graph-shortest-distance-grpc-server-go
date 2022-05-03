@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
-	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
 	"math"
+
+	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
 func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
-	log.Println("Calculating shortest distance ")
+	log.Println("Calculating shortest distance now...")
 
 	res, err := client.Dist(context.Background(), &pb.DistRequest{
 		Id:   id,

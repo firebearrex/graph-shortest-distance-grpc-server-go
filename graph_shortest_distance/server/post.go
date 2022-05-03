@@ -11,7 +11,7 @@ import (
 )
 
 func (*Server) Post(ctx context.Context, req *pb.PostRequest) (*pb.PostResponse, error) {
-	log.Printf("Post was invoked with %v\n", req)
+	log.Printf("Post was invoked with: %v\n", req)
 
 	totalVertices := req.TotalVertices
 	edges := req.Edges
