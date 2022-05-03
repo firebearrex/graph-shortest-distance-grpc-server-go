@@ -13,7 +13,10 @@ var addr string = "0.0.0.0:50051"
 
 func main() {
 	method := flag.String("method", "dist", "Specify one of the following methods to use with the "+
-		"client: post/dist/delete. Default usage is 'dist' for querying the shortest distance between two graph nodes.")
+		"client: post/dist/delete.\n"+
+		"post - post a new graph. The first argument is the total number of vertices, "+
+		"followed by a sequence of node values for representing [src -> dest] pairs.\n"+
+		"dist = compute the shortest distance between two nodes.")
 
 	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
@@ -26,11 +29,11 @@ func main() {
 	client := pb.NewGraphServiceClient(conn)
 
 	flag.Parse()
+	args := flag.Args()
 
 	switch *method {
 	case "post":
 		// Parse the inputs
-		args := flag.Args()
 		if len(args) < 1 {
 			log.Fatalln("Insufficient number of arguments")
 		} else if (len(args)-1)%2 != 0 {
@@ -48,30 +51,41 @@ func main() {
 			if err != nil {
 				log.Fatalf("Invalid input: %s\n", args[i])
 			}
-			// if src >= totalVertices {
-			// 	log.Fatalf("The node value [%d] is greater than or equal to the total number of nodes, "+
-			// 		"meaning the node does not exist in the graph", src)
-			// }
 			i++
 
 			dest, err := strconv.ParseInt(args[i], 10, 32)
 			if err != nil {
 				log.Fatalf("Invalid input: %s\n", args[i])
 			}
-			// if dest >= totalVertices {
-			// 	log.Fatalf("The node value [%d] is greater than or equal to the total number of nodes, "+
-			// 		"meaning the node does not exist in the graph", dest)
-			// }
 
 			edgesRaw[i/2-1][0] = int32(src)
 			edgesRaw[i/2-1][1] = int32(dest)
 		}
 
+		// Do the posting action
 		doPost(client, int32(totalVertices), edgesRaw)
 	case "dist":
-		log.Println("Dist method has not been implemented yet")
 		// Parse the inputs
-		// doDist(client)
+		if len(args) != 3 {
+			log.Fatalf("The [dist] method accepts 3 numeral parameters exactly\n")
+		} else {
+			id, err := strconv.ParseInt(args[0], 10, 32)
+			if err != nil {
+				log.Fatalf("Invalid input: %s\n", args[0])
+			}
+
+			src, err := strconv.ParseInt(args[1], 10, 32)
+			if err != nil {
+				log.Fatalf("Invalid input: %s\n", args[1])
+			}
+
+			dest, err := strconv.ParseInt(args[2], 10, 32)
+			if err != nil {
+				log.Fatalf("Invalid input: %s\n", args[2])
+			}
+
+			doDist(client, int32(id), int32(src), int32(dest))
+		}
 	case "delete":
 		log.Println("Delete method has not been implemented yet")
 		// Parse the inputs
