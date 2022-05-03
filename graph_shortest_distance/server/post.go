@@ -10,8 +10,6 @@ import (
 func (*Server) Post(ctx context.Context, in *pb.PostRequest) (*pb.PostResponse, error) {
 	log.Printf("Post was invoked with %v\n", in)
 
-	//totalVertices := in.TotalVertices
-	//edges := in.Edges
 	newGraph := Graph{
 		totalVertices: in.TotalVertices,
 		edges:         in.Edges,
