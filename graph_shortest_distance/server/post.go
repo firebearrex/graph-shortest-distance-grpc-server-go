@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"log"
 
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
@@ -10,9 +13,31 @@ import (
 func (*Server) Post(ctx context.Context, req *pb.PostRequest) (*pb.PostResponse, error) {
 	log.Printf("Post was invoked with %v\n", req)
 
+	totalVertices := req.TotalVertices
+	edges := req.Edges
+
+	// Parameter validation
+	for _, edge := range edges {
+		if edge.Src >= totalVertices {
+			return nil, status.Errorf(
+				codes.InvalidArgument,
+				fmt.Sprintf("The node value [%d] is greater than or equal to the total number of nodes, "+
+					"meaning the node does not exist in the graph", edge.Src),
+			)
+		}
+		if edge.Dest >= totalVertices {
+			return nil, status.Errorf(
+				codes.InvalidArgument,
+				fmt.Sprintf("The node value [%d] is greater than or equal to the total number of nodes, "+
+					"meaning the node does not exist in the graph", edge.Dest),
+			)
+		}
+	}
+
+	// Saving the graph
 	newGraph := Graph{
-		totalVertices: req.TotalVertices,
-		edges:         req.Edges,
+		totalVertices: totalVertices,
+		edges:         edges,
 	}
 	currId := idHead
 	graphStore[idHead] = newGraph
