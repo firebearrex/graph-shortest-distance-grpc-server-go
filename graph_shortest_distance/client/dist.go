@@ -28,6 +28,8 @@ func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 
 			if sts.Code() == codes.InvalidArgument {
 				log.Fatalf("Please check if the specified source node or destination node exist in the graph.\n")
+			} else if sts.Code() == codes.NotFound {
+				log.Fatalf("Please check if the graph ID is correct.\n")
 			}
 		} else {
 			log.Fatalf("A non gRPC error: %v\n", err)
