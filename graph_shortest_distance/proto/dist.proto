@@ -6,6 +6,8 @@ option go_package = "github.com/firebearrex/graph-shortest-distance-grpc-server-
 
 message DistRequest {
   int32 id = 1;
+  int32 src = 2;
+  int32 dest = 3;
 }
 
 message DistResponse {
