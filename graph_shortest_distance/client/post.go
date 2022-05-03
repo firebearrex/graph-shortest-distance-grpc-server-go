@@ -11,7 +11,7 @@ func doPost(client pb.GraphServiceClient, totalVertices int32, edgesRaw [][2]int
 
 	edgesPb := make([]*pb.Edge, len(edgesRaw))
 
-	for i := 0; i < len(edgesPb); i++ {
+	for i := 0; i < len(edgesRaw); i++ {
 		edgesPb[i] = &pb.Edge{Src: edgesRaw[i][0], Dest: edgesRaw[i][1]}
 	}
 
