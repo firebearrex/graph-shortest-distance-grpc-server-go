@@ -17,7 +17,15 @@ import (
 func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse, error) {
 	log.Printf("Dist was invoked with %v\n", req)
 
-	graph := graphStore[req.Id]
+	graph, ok := graphStore[req.Id]
+
+	// The graph does not exist in the data store
+	if !ok {
+		return nil, status.Errorf(
+			codes.NotFound,
+			fmt.Sprintf("The graph[id=%d] does not exist in the data store", req.Id),
+		)
+	}
 
 	totalVertices := graph.totalVertices
 	edges := graph.edges
@@ -62,7 +70,7 @@ func getShortestDistance(totalVertices int32, src int32, dest int32, adjList [][
 	}
 
 	// A queue to maintain queue of vertices whose adjacency list is to be scanned
-	queue := make([]int32, totalVertices)
+	var queue []int32
 
 	// Boolean array visited[] which stores the information whether ith vertex is reached at least once in the
 	// breadth first search
@@ -74,7 +82,7 @@ func getShortestDistance(totalVertices int32, src int32, dest int32, adjList [][
 
 	// BFS algorithm
 	for len(queue) != 0 {
-		nextNode := poll(queue)
+		nextNode := poll(&queue)
 		destFound := false
 		for i := 0; i < len(adjList[nextNode]); i++ {
 			if !visited[adjList[nextNode][i]] {
@@ -103,8 +111,8 @@ func offer(queue []int32, element int32) []int32 {
 }
 
 // poll takes the queue and slice off the first element and return the element
-func poll(queue []int32) int32 {
-	element := queue[0] // Poll element from the queue
-	queue = queue[1:]   // Slice off the element once it is dequeued.
+func poll(queue *[]int32) int32 {
+	element := (*queue)[0] // Poll element from the queue
+	*queue = (*queue)[1:]  // Slice off the element once it is dequeued.
 	return element
 }
