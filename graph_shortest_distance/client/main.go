@@ -48,15 +48,23 @@ func main() {
 			if err != nil {
 				log.Fatalf("Invalid input: %s\n", args[i])
 			}
+			// if src >= totalVertices {
+			// 	log.Fatalf("The node value [%d] is greater than or equal to the total number of nodes, "+
+			// 		"meaning the node does not exist in the graph", src)
+			// }
 			i++
 
-			dst, err := strconv.ParseInt(args[i], 10, 32)
+			dest, err := strconv.ParseInt(args[i], 10, 32)
 			if err != nil {
 				log.Fatalf("Invalid input: %s\n", args[i])
 			}
+			// if dest >= totalVertices {
+			// 	log.Fatalf("The node value [%d] is greater than or equal to the total number of nodes, "+
+			// 		"meaning the node does not exist in the graph", dest)
+			// }
 
 			edgesRaw[i/2-1][0] = int32(src)
-			edgesRaw[i/2-1][1] = int32(dst)
+			edgesRaw[i/2-1][1] = int32(dest)
 		}
 
 		doPost(client, int32(totalVertices), edgesRaw)
