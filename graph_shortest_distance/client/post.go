@@ -6,8 +6,23 @@ import (
 	"log"
 )
 
-func doPost(client pb.GraphServiceClient) {
+func doPost(client pb.GraphServiceClient, totalVertices int32, edgesRaw [][2]int32) {
 	log.Println("Posting new graph now...")
 
-	res, err := client.Post(context.Background())
+	edgesPb := make([]*pb.Edge, len(edgesRaw))
+
+	for i := 0; i < len(edgesPb); i++ {
+		edgesPb[i] = &pb.Edge{Src: edgesRaw[i][0], Dest: edgesRaw[i][1]}
+	}
+
+	res, err := client.Post(context.Background(), &pb.PostRequest{
+		TotalVertices: totalVertices,
+		Edges:         edgesPb,
+	})
+
+	if err != nil {
+		log.Fatalf("Failed to post new graph: %v\n", err)
+	}
+
+	log.Printf("New graph posted to server successfully. Graph ID: %d\n", res.Result)
 }
