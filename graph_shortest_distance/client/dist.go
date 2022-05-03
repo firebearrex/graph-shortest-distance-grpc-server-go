@@ -18,6 +18,7 @@ func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 		Dest: dest,
 	})
 
+	// Error handling
 	if err != nil {
 		sts, ok := status.FromError(err)
 
@@ -26,8 +27,7 @@ func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 			log.Printf("Error code: %d\n", sts.Code())
 
 			if sts.Code() == codes.InvalidArgument {
-				log.Println("Check if the specified source node or destination node exist in the graph.")
-				return
+				log.Fatalf("Please check if the specified source node or destination node exist in the graph.\n")
 			}
 		} else {
 			log.Fatalf("A non gRPC error: %v\n", err)
@@ -37,7 +37,7 @@ func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 	if res.Result == math.MaxInt32 {
 		log.Printf("The source node [%d] and destination node [%d] are not connected.\n", src, dest)
 	} else {
-		log.Printf("The shortest distance between node [%d] and node [%d] in graph with id=%d is: %d", src, dest, id,
+		log.Printf("The shortest distance between node [%d] and node [%d] in graph[id=%d] is: %d", src, dest, id,
 			res.Result)
 	}
 }
