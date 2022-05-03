@@ -87,9 +87,18 @@ func main() {
 			doDist(client, int32(id), int32(src), int32(dest))
 		}
 	case "delete":
-		log.Println("Delete method has not been implemented yet")
 		// Parse the inputs
-		// doDelete(client)
+		if len(args) != 1 {
+			log.Fatalf("The [delete] method accepts 1 numeral parameter exactly\n")
+		} else {
+			id, err := strconv.ParseInt(args[0], 10, 32)
+			if err != nil {
+				log.Fatalf("Invalid input: %s\n", args[0])
+			}
+
+			doDelete(client, int32(id))
+		}
+
 	default:
 		log.Fatalf("%s is not a valid method", *method)
 	}
