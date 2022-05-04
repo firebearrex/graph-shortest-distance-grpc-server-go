@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
+
+	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
 func doPost(client pb.GraphServiceClient, totalVertices int32, edgesRaw [][2]int32) {
