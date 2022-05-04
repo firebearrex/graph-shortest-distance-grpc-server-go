@@ -10,6 +10,8 @@ import (
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
+// Post posts a new graph representation to the server's data store.
+// Returns the new graph's unique ID for future reference.
 func (*Server) Post(ctx context.Context, req *pb.PostRequest) (*pb.PostResponse, error) {
 	log.Printf("Post was invoked with: %v\n", req)
 
