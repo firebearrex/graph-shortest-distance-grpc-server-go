@@ -30,7 +30,19 @@ func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse,
 	totalVertices := graph.totalVertices
 	edges := graph.edges
 
-	// Error handling
+	// Parameter validation
+	if req.Src < 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Invalid source node: %d. Must not be negative.", req.Src),
+		)
+	}
+	if req.Dest < 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Invalid destination node: %d. Must not be negative.", req.Dest),
+		)
+	}
 	if req.Src >= totalVertices {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
@@ -44,6 +56,7 @@ func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse,
 		)
 	}
 
+	// Build adjacency list
 	adjList := make([][]int32, totalVertices)
 	for _, edge := range edges {
 		src := edge.Src
@@ -63,6 +76,10 @@ func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse,
 // The time complexity of this algorithm is O(V+E), where V represents the number of vertices in the graph,
 // and E represents the number of edges in the graph.
 func getShortestDistance(totalVertices int32, src int32, dest int32, adjList [][]int32) int32 {
+	if src == dest {
+		return 0
+	}
+
 	// The dist list records the shortest distance of each vertex to the source node
 	dist := make([]int32, totalVertices)
 	for i := 0; i < len(dist); i++ {
