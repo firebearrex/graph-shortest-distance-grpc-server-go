@@ -17,7 +17,26 @@ func (*Server) Post(ctx context.Context, req *pb.PostRequest) (*pb.PostResponse,
 	edges := req.Edges
 
 	// Parameter validation
+	if totalVertices < 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("Invalid total number of vertices: %d. Must not be negative.", totalVertices),
+		)
+	}
+
 	for _, edge := range edges {
+		if edge.Src < 0 {
+			return nil, status.Errorf(
+				codes.InvalidArgument,
+				fmt.Sprintf("Invalid edge node: %d. Must not be negative.", edge.Src),
+			)
+		}
+		if edge.Dest < 0 {
+			return nil, status.Errorf(
+				codes.InvalidArgument,
+				fmt.Sprintf("Invalid edge node: %d. Must not be negative.", edge.Dest),
+			)
+		}
 		if edge.Src >= totalVertices {
 			return nil, status.Errorf(
 				codes.InvalidArgument,
