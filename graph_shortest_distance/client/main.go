@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-var addr string = "0.0.0.0:50051"
+var addr = "0.0.0.0:50051"
 
 func main() {
 	method := flag.String("method", "dist", "Specify one of the following methods to use with the "+
@@ -45,7 +45,7 @@ func main() {
 			log.Fatalf("Invalid input: %s\n", args[0])
 		}
 
-		var edgesRaw [][2]int32 = make([][2]int32, (len(args)-1)/2)
+		var edgesRaw = make([][2]int32, (len(args)-1)/2)
 		for i := 1; i < len(args); i++ {
 			src, err := strconv.ParseInt(args[i], 10, 32)
 			if err != nil {
