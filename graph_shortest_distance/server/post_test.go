@@ -73,7 +73,7 @@ func TestServer_Post(t *testing.T) {
 		}
 
 		if res.Result != tt.expected {
-			t.Errorf("PostResponse(%+v) = %v, expected: %v", tt, res.Result, tt.expected)
+			t.Errorf("Post(%+v) = %v, expected: %v", tt, res.Result, tt.expected)
 		}
 	}
 }
@@ -106,7 +106,7 @@ func TestServer_PostInvalidInput(t *testing.T) {
 	if err1 == nil {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res1 != nil {
-		t.Fatalf("PostResponse(%+v) = %v, expected: nil", req1, res1.Result)
+		t.Fatalf("Post(%+v) = %v, expected: nil", req1, res1.Result)
 	}
 
 	// Destination node does not exist
@@ -121,7 +121,7 @@ func TestServer_PostInvalidInput(t *testing.T) {
 	if err2 == nil {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res2 != nil {
-		t.Fatalf("PostResponse(%+v) = %v, expected: nil", req2, res2.Result)
+		t.Fatalf("Post(%+v) = %v, expected: nil", req2, res2.Result)
 	}
 
 	// TotalVertices < 0
@@ -136,7 +136,7 @@ func TestServer_PostInvalidInput(t *testing.T) {
 	if err3 == nil {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res3 != nil {
-		t.Fatalf("PostResponse(%+v) = %v, expected: nil", req3, res3.Result)
+		t.Fatalf("Post(%+v) = %v, expected: nil", req3, res3.Result)
 	}
 
 	// Src < 0
@@ -151,7 +151,7 @@ func TestServer_PostInvalidInput(t *testing.T) {
 	if err4 == nil {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res4 != nil {
-		t.Fatalf("PostResponse(%+v) = %v, expected: nil", req4, res4.Result)
+		t.Fatalf("Post(%+v) = %v, expected: nil", req4, res4.Result)
 	}
 
 	// Dest < 0
@@ -166,6 +166,6 @@ func TestServer_PostInvalidInput(t *testing.T) {
 	if err5 == nil {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res5 != nil {
-		t.Fatalf("PostResponse(%+v) = %v, expected: nil", req5, res5.Result)
+		t.Fatalf("Post(%+v) = %v, expected: nil", req5, res5.Result)
 	}
 }
