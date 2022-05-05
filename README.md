@@ -17,8 +17,7 @@ shortest distance between two specified nodes, and deleting a previously posted 
 ## How to Run
 
 * ### Compile the protocol definition
-    * The Protocol Buffer client/server interface boilerplate code have already been compiled and included in the 
-      repository, but in case they need to be regenerated, run the following command from the root directory:  
+    * To generate the Protocol Buffer client/server interface boilerplate code, run the following command from the root directory:  
       `protoc -Igraph_shortest_distance/proto --go_opt=module=github.com/firebearrex/graph-shortest-distance-grpc-server-go --go_out=. --go-grpc_opt=module=github.com/firebearrex/graph-shortest-distance-grpc-server-go --go-grpc_out=. graph_shortest_distance/proto/*.proto`
 * ### Build client/server executables
   * The client/server executables can be found under _bin/graph_shortest_distance/_ directory by running the 
@@ -73,6 +72,14 @@ shortest distance between two specified nodes, and deleting a previously posted 
     successfully deleted, or it does not exist in the server's data store. 
 
 ## Example Runs
+An example run can be found under the res/ folder. The example run showcases the typical use cases of using 
+this program, including:
+* Using an incorrect method name
+* Invalid arguments are given
+* Posting new graphs
+* Making queries for computing the shortest distance of two nodes
+* Deleting a graph
+* The requested graph does not exist
 
 ## Assumptions
 * The graph nodes are represented as numerical values. If there are N vertices in the graph, then the values 0, 1, 2,
