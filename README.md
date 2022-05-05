@@ -49,16 +49,22 @@ shortest distance between two specified nodes, and deleting a previously posted 
   * If there is an error, the corresponding message will be prompted.
 
 * ### Compute the shortest distance between two nodes
-  * For computing the shortest distance of two nodes, the arguments are numerical values to represent the following
-    attributes:
-    * The graph's ID which is queried on
-    * The source node
-    * The destination node
-  * The arguments should be specified following the same order as the order above, i.e. first argument - graph ID; 
-    second argument - source node; third argument - destination node
-  * The following example computes the shortest distance between node 1 and 3 in the graph with ID equal to 0:  
-    `./bin/graph_shortest_distance/client -method=dist 0 1 3`  
-    You can also omit the [-method=dist] part as the default method to be used is _dist_.
+  * #### Unary gRPC API call for one single request
+    * If this method only receives 3 arguments, it will trigger the unary call for this single request.
+    * For computing the shortest distance of two nodes, the arguments are numerical values to represent the following
+      attributes:
+      * The graph's ID which is queried on
+      * The source node
+      * The destination node
+    * The arguments should be specified following the same order as the order above, i.e. first argument - graph ID; 
+      second argument - source node; third argument - destination node
+    * The following example computes the shortest distance between node 1 and 3 in the graph with ID equal to 0:  
+      `./bin/graph_shortest_distance/client -method=dist 0 1 3`
+  * #### Bi-Directional gRPC streaming for multiple requests
+    * If this method receives more than 3 arguments, it will trigger the bi-directional streaming for these multiple 
+      requests.
+    * The arguments should come as pairs of 3 for making a single request, and follow the same attributes order.
+  * You can omit the [-method=dist] part as the default method to be used on this program is _dist_.
   * After running the command, the program will respond with a prompt to show the shortest distance between the two 
     nodes which are queried on.
   * If there is an error, the corresponding message will be prompted.
@@ -81,8 +87,10 @@ this program, including:
 * Deleting a graph
 * The requested graph does not exist
 
+## Tests
+* Test files can be found in the server's directory.
+* Both `dist_test` and `dist_stream_test` contains performance testing for computing the shortest distances.
+
 ## Assumptions
 * The graph nodes are represented as numerical values. If there are N vertices in the graph, then the values 0, 1, 2,
   ... , N - 1 represent each of nodes in this graph.
-
-## Limitations
