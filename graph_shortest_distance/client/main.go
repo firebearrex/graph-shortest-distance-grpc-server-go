@@ -66,9 +66,38 @@ func main() {
 		doPost(client, int32(totalVertices), edgesRaw)
 	case "dist":
 		// Parse the inputs
-		if len(args) != 3 {
-			log.Fatalf("The [dist] method accepts 3 numeral parameters exactly\n")
-		} else {
+		if len(args) > 3 {
+			if len(args)%3 != 0 {
+				log.Fatalln("Incorrect number of arguments. " +
+					"Arguments must be given as pairs of 3 consecutive numerical values.")
+			}
+
+			var ids = make([]int32, len(args)/3)
+			var srcs = make([]int32, len(args)/3)
+			var dests = make([]int32, len(args)/3)
+			for i := 0; i < len(args); i += 3 {
+				id, err := strconv.ParseInt(args[i], 10, 32)
+				if err != nil {
+					log.Fatalf("Invalid input: %s\n", args[i])
+				}
+
+				src, err := strconv.ParseInt(args[i+1], 10, 32)
+				if err != nil {
+					log.Fatalf("Invalid input: %s\n", args[i+1])
+				}
+
+				dest, err := strconv.ParseInt(args[i+2], 10, 32)
+				if err != nil {
+					log.Fatalf("Invalid input: %s\n", args[i+2])
+				}
+
+				ids[i/3] = int32(id)
+				srcs[i/3] = int32(src)
+				dests[i/3] = int32(dest)
+			}
+
+			doDistStream(client, ids, srcs, dests)
+		} else if len(args) == 3 {
 			id, err := strconv.ParseInt(args[0], 10, 32)
 			if err != nil {
 				log.Fatalf("Invalid input: %s\n", args[0])
@@ -85,11 +114,13 @@ func main() {
 			}
 
 			doDist(client, int32(id), int32(src), int32(dest))
+		} else {
+			log.Fatalf("The [dist] method accepts 3 or more numeral arguments\n")
 		}
 	case "delete":
 		// Parse the inputs
 		if len(args) != 1 {
-			log.Fatalf("The [delete] method accepts 1 numeral parameter exactly\n")
+			log.Fatalf("The [delete] method accepts 1 numeral argument exactly\n")
 		} else {
 			id, err := strconv.ParseInt(args[0], 10, 32)
 			if err != nil {
