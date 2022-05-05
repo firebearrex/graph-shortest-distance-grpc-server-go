@@ -11,7 +11,7 @@ import (
 )
 
 func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
-	log.Println("Calculating shortest distance now...")
+	log.Println("Computing shortest distance now...")
 
 	res, err := client.Dist(context.Background(), &pb.DistRequest{
 		Id:   id,
@@ -38,9 +38,10 @@ func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 	}
 
 	if res.Result == math.MaxInt32 {
-		log.Printf("The source node [%d] and destination node [%d] are not connected.\n", src, dest)
+		log.Printf("The source node [%d] and destination node [%d] in graph[id=%d] are not connected.\n",
+			src, dest, id)
 	} else {
-		log.Printf("The shortest distance between node [%d] and node [%d] in graph[id=%d] is: %d", src, dest, id,
-			res.Result)
+		log.Printf("The shortest distance between node [%d] and node [%d] in graph[id=%d] is: %d\n",
+			src, dest, id, res.Result)
 	}
 }
