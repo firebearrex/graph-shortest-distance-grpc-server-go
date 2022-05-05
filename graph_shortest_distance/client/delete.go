@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// doDelete executes the client request
 func doDelete(client pb.GraphServiceClient, id int32) {
 	log.Println("Deleting the specified graph now...")
 

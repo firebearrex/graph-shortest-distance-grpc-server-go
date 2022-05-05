@@ -9,6 +9,7 @@ import (
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
+// doPost executes the client request
 func doPost(client pb.GraphServiceClient, totalVertices int32, edgesRaw [][2]int32) {
 	log.Println("Posting new graph now...")
 

@@ -10,6 +10,7 @@ import (
 	"math"
 )
 
+// doDistStream executes the client request
 func doDistStream(client pb.GraphServiceClient, ids []int32, srcs []int32, dests []int32) {
 	log.Println("Processing multiple shortest distance requests now...")
 

@@ -10,6 +10,9 @@ import (
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
+// DistStream handles multiple requests for computing the shortest distance between two nodes received over a stream,
+// and then sends back responses accordingly over the same stream.
+// The computation algorithm and  behavior of each response are the same as the unary Dist service.
 func (*Server) DistStream(stream pb.GraphService_DistStreamServer) error {
 	log.Println("DistStream was invoked")
 

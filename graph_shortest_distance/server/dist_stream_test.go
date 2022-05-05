@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
@@ -11,8 +10,11 @@ import (
 	"log"
 	"math"
 	"testing"
+
+	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
+// BenchmarkServer_DistStream serves as the performance testing
 func BenchmarkServer_DistStream(b *testing.B) {
 	idHead = 0
 	graphStore = make(map[int32]Graph)

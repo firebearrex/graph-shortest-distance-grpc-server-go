@@ -25,6 +25,7 @@ func init() {
 	}()
 }
 
+// bufDialer provides a mock of server that is independent of OS resources
 func bufDialer(context.Context, string) (net.Conn, error) {
 	return lis.Dial()
 }

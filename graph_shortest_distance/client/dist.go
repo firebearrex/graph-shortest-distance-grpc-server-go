@@ -10,6 +10,7 @@ import (
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
+// doDist executes the client request
 func doDist(client pb.GraphServiceClient, id int32, src int32, dest int32) {
 	log.Println("Computing shortest distance now...")
 
