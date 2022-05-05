@@ -150,6 +150,7 @@ func TestServer_Dist(t *testing.T) {
 	}
 }
 
+// TestServer_DistInvalidInput tests for invalid parameters
 func TestServer_DistInvalidInput(t *testing.T) {
 	idHead = 0
 	graphStore = make(map[int32]Graph)
@@ -286,6 +287,7 @@ func TestServer_DistInvalidInput(t *testing.T) {
 	}
 }
 
+// BenchmarkServer_Dist serves as the performance testing
 func BenchmarkServer_Dist(b *testing.B) {
 	idHead = 0
 	graphStore = make(map[int32]Graph)
