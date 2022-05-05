@@ -1,0 +1,52 @@
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=post 4 0 1 1 2 1 3 3 0 
+2022/05/04 18:34:13 Posting new graph now...
+2022/05/04 18:34:13 New graph posted to server successfully. Graph ID: 0
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=post 5 0 1 0 4 1 2 1 3 1 4 2 3 3 4
+2022/05/04 18:34:41 Posting new graph now...
+2022/05/04 18:34:41 New graph posted to server successfully. Graph ID: 1
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=post 8 0 1 0 3 1 2 3 4 3 7 4 5 4 6 4 7 5 6 6 7
+2022/05/04 18:35:03 Posting new graph now...
+2022/05/04 18:35:03 New graph posted to server successfully. Graph ID: 2
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=invalidmethod 8 0 1 0 3 1 2 3 4 3 7 4 5 4 6 4 7 5 6 6 7
+2022/05/04 18:36:29 invalidmethod is not a valid method
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=dist 0 2 4
+2022/05/04 18:37:53 Calculating shortest distance now...
+2022/05/04 18:37:53 Error message from server: The source node [4] does not exist in the graph
+2022/05/04 18:37:53 Error code: 3
+2022/05/04 18:37:53 Please check if the specified source node or destination node exist in the graph.
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=dist 0 0 2
+2022/05/04 18:38:39 Calculating shortest distance now...
+2022/05/04 18:38:39 The shortest distance between node [0] and node [2] in graph[id=0] is: 2
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 1 0 8
+2022/05/04 18:39:28 Calculating shortest distance now...
+2022/05/04 18:39:28 Error message from server: The source node [8] does not exist in the graph
+2022/05/04 18:39:28 Error code: 3
+2022/05/04 18:39:28 Please check if the specified source node or destination node exist in the graph.
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 1 1 4
+2022/05/04 18:42:10 Calculating shortest distance now...
+2022/05/04 18:42:10 The shortest distance between node [1] and node [4] in graph[id=1] is: 1
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 1 2 4
+2022/05/04 18:42:29 Calculating shortest distance now...
+2022/05/04 18:42:29 The shortest distance between node [2] and node [4] in graph[id=1] is: 2
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 2 3 6
+2022/05/04 18:42:59 Calculating shortest distance now...
+2022/05/04 18:42:59 The shortest distance between node [3] and node [6] in graph[id=2] is: 2
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 2 1 6
+2022/05/04 18:44:00 Calculating shortest distance now...
+2022/05/04 18:44:00 The shortest distance between node [1] and node [6] in graph[id=2] is: 4
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 2 -1 6
+2022/05/04 18:44:30 Calculating shortest distance now...
+2022/05/04 18:44:30 Error message from server: Invalid source node: -1. Must not be negative.
+2022/05/04 18:44:30 Error code: 3
+2022/05/04 18:44:30 Please check if the specified source node or destination node exist in the graph.
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=delete 0
+2022/05/04 18:45:52 Deleting the specified graph now...
+2022/05/04 18:45:52 The graph[id=0] is succesfully deleted from the data store.
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client -method=delete 0
+2022/05/04 18:46:48 Deleting the specified graph now...
+2022/05/04 18:46:48 The graph[id=0] does not exist in the data store.
+(base) chengs-mbp:graph-shortest-distance-grpc-server-go rex$ ./bin/graph_shortest_distance/client 0 0 2
+2022/05/04 18:47:15 Calculating shortest distance now...
+2022/05/04 18:47:15 Error message from server: The graph[id=0] does not exist in the data store
+2022/05/04 18:47:15 Error code: 5
+2022/05/04 18:47:15 Please check if the graph ID is correct.
