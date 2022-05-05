@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -281,5 +282,127 @@ func TestServer_DistInvalidInput(t *testing.T) {
 		t.Fatal("Failed to catch expected error\n")
 	} else if res5 != nil {
 		t.Fatalf("Dist(%+v) = %v, expected: nil", req5, res5.Result)
+	}
+}
+
+func BenchmarkServer_Dist(b *testing.B) {
+	idHead = 0
+	graphStore = make(map[int32]Graph)
+
+	ctx := context.Background()
+	creds := grpc.WithTransportCredentials(insecure.NewCredentials())
+	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), creds)
+
+	if err != nil {
+		b.Fatalf("Failed to dial bufnet: %v", err)
+	}
+
+	defer conn.Close()
+	client := pb.NewGraphServiceClient(conn)
+
+	graphs := []struct {
+		totalVertices int32
+		edgesPb       []*pb.Edge
+	}{
+		{
+			totalVertices: 8,
+			edgesPb: []*pb.Edge{
+				{Src: 0, Dest: 1},
+				{Src: 0, Dest: 3},
+				{Src: 1, Dest: 2},
+				{Src: 3, Dest: 4},
+				{Src: 3, Dest: 7},
+				{Src: 4, Dest: 5},
+				{Src: 4, Dest: 6},
+				{Src: 4, Dest: 7},
+				{Src: 5, Dest: 6},
+				{Src: 6, Dest: 7},
+			},
+		},
+		{
+			totalVertices: 5,
+			edgesPb: []*pb.Edge{
+				{Src: 0, Dest: 1},
+				{Src: 0, Dest: 4},
+				{Src: 1, Dest: 2},
+				{Src: 1, Dest: 3},
+				{Src: 1, Dest: 4},
+				{Src: 2, Dest: 3},
+				{Src: 3, Dest: 4},
+			},
+		},
+		{
+			totalVertices: 3,
+			edgesPb: []*pb.Edge{
+				{Src: 0, Dest: 1},
+			},
+		},
+	}
+
+	for _, graph := range graphs {
+		_, err := client.Post(context.Background(), &pb.PostRequest{
+			TotalVertices: graph.totalVertices,
+			Edges:         graph.edgesPb,
+		})
+
+		if err != nil {
+			b.Errorf("Post(%+v) got unexpected error", graph)
+		}
+	}
+
+	tests := []struct {
+		distance int32
+		id       int32
+		src      int32
+		dest     int32
+	}{
+		{
+			distance: 0,
+			id:       0,
+			src:      2,
+			dest:     2,
+		},
+		{
+			distance: 1,
+			id:       0,
+			src:      2,
+			dest:     1,
+		},
+		{
+			distance: 2,
+			id:       0,
+			src:      2,
+			dest:     0,
+		},
+		{
+			distance: 3,
+			id:       0,
+			src:      2,
+			dest:     3,
+		},
+		{
+			distance: 4,
+			id:       0,
+			src:      2,
+			dest:     7,
+		},
+		{
+			distance: 5,
+			id:       0,
+			src:      2,
+			dest:     6,
+		},
+	}
+
+	for _, tt := range tests {
+		b.Run(fmt.Sprintf("shortest_distance_%d", tt.distance), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				client.Dist(context.Background(), &pb.DistRequest{
+					Id:   tt.id,
+					Src:  tt.src,
+					Dest: tt.dest,
+				})
+			}
+		})
 	}
 }
