@@ -13,3 +13,10 @@ message DistRequest {
 message DistResponse {
   int32 result = 1;
 }
+
+message DistStreamResponse {
+  int32 result = 1;
+  int32 id = 2;
+  int32 src = 3;
+  int32 dest = 4;
+}
