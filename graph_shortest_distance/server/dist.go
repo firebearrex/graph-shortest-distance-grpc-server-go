@@ -52,7 +52,7 @@ func (*Server) Dist(ctx context.Context, req *pb.DistRequest) (*pb.DistResponse,
 	if req.Dest >= totalVertices {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
-			fmt.Sprintf("The source node [%d] does not exist in the graph", req.Dest),
+			fmt.Sprintf("The destination node [%d] does not exist in the graph", req.Dest),
 		)
 	}
 
