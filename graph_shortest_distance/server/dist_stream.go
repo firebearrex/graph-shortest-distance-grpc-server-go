@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"io"
 	"log"
+
+	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
 func (*Server) DistStream(stream pb.GraphService_DistStreamServer) error {
@@ -73,8 +74,11 @@ func (*Server) DistStream(stream pb.GraphService_DistStreamServer) error {
 
 		shortestDistance := getShortestDistance(totalVertices, req.Src, req.Dest, adjList)
 
-		err = stream.Send(&pb.DistResponse{
+		err = stream.Send(&pb.DistStreamResponse{
 			Result: shortestDistance,
+			Id:     req.Id,
+			Src:    req.Src,
+			Dest:   req.Dest,
 		})
 
 		if err != nil {
