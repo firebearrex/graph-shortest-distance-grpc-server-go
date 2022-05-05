@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"math"
 	"testing"
+
+	pb "github.com/firebearrex/graph-shortest-distance-grpc-server-go/graph_shortest_distance/proto"
 )
 
 // TestServer_Dist tests for computing the shortest distance
