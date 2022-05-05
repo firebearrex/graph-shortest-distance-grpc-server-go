@@ -12,4 +12,5 @@ service GraphService {
   rpc Post(PostRequest) returns (PostResponse);
   rpc Dist(DistRequest) returns (DistResponse);
   rpc Delete(DeleteRequest) returns (DeleteResponse);
+  rpc DistStream(stream DistRequest) returns (stream DistResponse);
 }
